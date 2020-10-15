@@ -95,10 +95,15 @@ void PSI4Charges(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int bead)
   inFile.close();
   //Clean up files
   call.str("");
-  call << "rm -f ";
+  call << "mkdir -p LICHM_PSI_LASTITER";
+  globalSys = system(call.str().c_str());
+
+  call.str("");
+  call << "mv ";
   call << "LICHM_" << bead << ".dat ";
   call << "LICHM_" << bead << ".out ";
-  call << "LICHM_" << bead << ".log";
+  // call << "LICHM_" << bead << ".log ";
+  call << "LICHM_PSI_LASTITER/.";
   globalSys = system(call.str().c_str());
   return;
 };
@@ -230,10 +235,21 @@ double PSI4Energy(vector<QMMMAtom>& QMMMData, QMMMSettings& QMMMOpts, int bead)
     call << "rm -f LICHM_" << bead << ".trash";
     call << " "; //Extra blank space before the next command
   }
+  call << "mkdir -p LICHM_PSI_LASTITER";
+  globalSys = system(call.str().c_str());
+
+  call.str("");
+  call << "mv ";
+  call << "LICHM_" << bead << ".dat ";
+  call << "LICHM_" << bead << ".out ";
+  call << "LICHM_PSI_LASTITER/.";
+  globalSys = system(call.str().c_str());
+  /*
   call << "rm -f ";
   call << "LICHM_" << bead << ".dat ";
   call << "LICHM_" << bead << ".out ";
   call << "LICHM_" << bead << ".log";
+  */
   globalSys = system(call.str().c_str());
   //Change units
   E *= har2eV;
